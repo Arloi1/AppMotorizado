@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- PWA Manifest & Meta Tags para Dispositivos Móviles -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#00f2fe">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
         :root {
             --bg-app: #060913;
@@ -246,8 +253,8 @@
         }
 
         /* =========================================================
-           ESTILOS PROFESIONALES DE IMPRESIÓN IMPRESCINDIBLES (PDF)
-           ========================================================= */
+            ESTILOS PROFESIONALES DE IMPRESIÓN IMPRESCINDIBLES (PDF)
+            ========================================================= */
         @page {
             size: A4 portrait;
             margin: 12mm;
@@ -655,5 +662,20 @@
             </div>
         </div>
     </div>
+
+    <!-- Script de Registro del Service Worker para PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+                    .then((reg) => {
+                        console.log('Service Worker registrado con éxito en la cédula:', reg.scope);
+                    })
+                    .catch((err) => {
+                        console.log('Error al registrar el Service Worker:', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
