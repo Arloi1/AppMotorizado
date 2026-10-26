@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Motorizados - SG-Quantum | Gobierno Regional de Cajamarca</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #020611;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --emerald-primary: #059669;
+            --emerald-neon: #10b981;
+            --emerald-dark: #022c22;
+            --gold-accent: #fbbf24;
+            --border-color: rgba(16, 185, 129, 0.25);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(2, 44, 34, 0.2) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .action-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(2, 6, 17, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .action-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .action-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid;
+            padding: 35px 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .action-overlay.active .action-box {
+            transform: scale(1);
+        }
+
+        .action-box.creating {
+            border-color: var(--emerald-neon);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.4), 0 25px 50px rgba(0,0,0,0.7);
+        }
+
+        .action-box.deleting {
+            border-color: #ef4444;
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.4), 0 25px 50px rgba(0,0,0,0.7);
+        }
+
+        .spinner-quantum {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        .creating .spinner-quantum {
+            border-top-color: var(--emerald-neon);
+        }
+
+        .deleting .spinner-quantum {
+            border-top-color: #ef4444;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .navbar-quantum {
+            background: rgba(2, 6, 17, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+        }
+
+        .navbar-brand img {
+            max-height: 48px;
+            width: auto;
+            object-fit: contain;
+            margin-right: 12px;
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #cbd5e1 !important;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: var(--emerald-neon) !important;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .quantum-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .form-label {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(2, 6, 23, 0.95);
+            border-color: var(--emerald-neon);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+            color: #ffffff;
+        }
+
+        .btn-emerald {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border: none;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 12px 20px;
+            border-radius: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .btn-emerald:hover {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 12px 25px rgba(5, 150, 105, 0.6);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        .table-responsive {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .table {
+            margin-bottom: 0;
+            color: #f8fafc;
+            vertical-align: middle;
+        }
+
+        .table-dark {
+            background-color: rgba(3, 7, 18, 0.9);
+        }
+
+        .table-dark th {
+            background-color: rgba(5, 150, 105, 0.2);
+            color: var(--emerald-neon);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 16px;
+        }
+
+        .table-dark td {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+            color: #e2e8f0;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: 1px solid transparent;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="createOverlay" class="action-overlay">
+        <div class="action-box creating">
+            <div class="spinner-quantum"></div>
+            <h4 class="text-white fw-bold m-0" style="letter-spacing: 0.5px;">Creando usuario motorizado...</h4>
+            <p class="text-muted small mt-2 mb-0">Sincronizando con SG-QUANTUM</p>
+        </div>
+    </div>
+
+    <div id="deleteOverlay" class="action-overlay">
+        <div class="action-box deleting">
+            <div class="spinner-quantum"></div>
+            <h4 class="text-danger fw-bold m-0" style="letter-spacing: 0.5px;">Eliminando usuario...</h4>
+            <p class="text-muted small mt-2 mb-0">Removiendo credenciales del sistema</p>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-quantum px-4">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/admin">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo GORE Cajamarca" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Gobierno_Regional_Cajamarca_-_Escudo.png'; this.onerror=function(){this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png';};">
+                <div>
+                    <span class="fw-bold fs-5 text-light" style="letter-spacing: 0.5px;">SG-QUANTUM</span>
+                    <div style="font-size: 0.7rem; color: var(--gold-accent); line-height: 1; font-weight: 600; text-transform: uppercase;">Secretaría General - GRC</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-chart-pie me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/admin/motorizados"><i class="fas fa-motorcycle me-1 text-success"></i> Motorizados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/entregas"><i class="fas fa-file-invoice me-1"></i> Entregas</a></li>
+                    <li class="nav-item ms-2"><a class="nav-link text-danger border border-danger border-opacity-25 rounded-3 px-3 py-2" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Salir</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5 animate-fade-in">
+        <div class="mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-back mb-3"><i class="fas fa-arrow-left"></i> Volver al Panel</a>
+            <h3 class="fw-bold text-light d-flex align-items-center gap-2 m-0">
+                <i class="fas fa-motorcycle text-success"></i> Administración de Motorizados
+            </h3>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-dismissible fade show shadow-sm mb-4 animate-fade-in" role="alert" style="background: {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.15){% else %}rgba(16, 185, 129, 0.15){% endif %}; color: {% if category == 'danger' or category == 'error' %}#fca5a5{% else %}#6ee7b7{% endif %}; border: 1px solid {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.3){% else %}rgba(16, 185, 129, 0.3){% endif %};">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fas {% if category == 'danger' or category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                    <div>{{ message }}</div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+                <div class="quantum-card h-100">
+                    <h5 class="card-title text-light mb-4 d-flex align-items-center gap-2 fs-5">
+                        <i class="fas fa-user-plus text-success"></i> Nuevo Motorizado
+                    </h5>
+                    <form id="createForm" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" name="nombre_completo" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario (Login)</label>
+                            <input type="text" class="form-control" name="username" placeholder="jperez" required autocomplete="username">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" placeholder="••••••••••••" required autocomplete="new-password">
+                        </div>
+                        <button type="submit" class="btn btn-emerald">
+                            <i class="fas fa-plus-circle me-1"></i> Crear Motorizado
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="quantum-card h-100">
+                    <h5 class="card-title text-light mb-4 d-flex align-items-center gap-2 fs-5">
+                        <i class="fas fa-list-ul text-success"></i> Lista de Motorizados Actuales
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-dark align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Nombre Completo</th>
+                                    <th>Usuario</th>
+                                    <th class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in motorizados %}
+                                <tr>
+                                    <td class="fw-semibold text-white">{{ m.nombre_completo }}</td>
+                                    <td><code class="text-success bg-success bg-opacity-10 px-2 py-1 rounded">{{ m.username }}</code></td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('eliminar_motorizado', id=m.id) }}" class="btn btn-sm btn-outline-danger px-3 py-1 delete-btn">
+                                            <i class="fas fa-trash me-1"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center py-5 text-muted">
+                                        <i class="fas fa-motorcycle fa-2x mb-2 opacity-50 d-block"></i>
+                                        No hay motorizados registrados en el sistema.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto al Crear Usuario
+        const createForm = document.getElementById('createForm');
+        const createOverlay = document.getElementById('createOverlay');
+
+        createForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            createOverlay.classList.add('active'); 
+
+            setTimeout(() => {
+                createForm.submit();
+            }, 800);
+        });
+
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteOverlay = document.getElementById('deleteOverlay');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                const targetUrl = this.getAttribute('href');
+
+                if (confirm('¿Estás seguro de eliminar este motorizado?')) {
+                    deleteOverlay.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 800);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

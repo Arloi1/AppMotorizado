@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Institucional - SG-QUANTUM | Gobierno Regional de Cajamarca</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-emerald: #059669;
+            --emerald-dark: #022c22;
+            --emerald-glow: #10b981;
+            --gold-accent: #fbbf24;
+        }
+
+        body {
+            background-color: #000205;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+            perspective: 1400px;
+        }
+
+        .cyber-matrix-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.38) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(5, 150, 105, 0.32) 0%, transparent 50%),
+                radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 15% 85%, rgba(4, 120, 87, 0.4) 0%, transparent 55%),
+                linear-gradient(135deg, #011611 0%, #000205 55%, #010814 100%);
+        }
+
+        .hud-grid-overlay {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.18) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.18) 1.5px, transparent 1.5px);
+            background-size: 55px 55px;
+            z-index: 1;
+            transform: rotateX(60deg) translateZ(-100px);
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            box-shadow: inset 0 0 100px rgba(16, 185, 129, 0.3);
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 110px; }
+        }
+
+        .laser-scanline {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--emerald-glow), transparent);
+            box-shadow: 0 0 20px var(--emerald-glow);
+            z-index: 2;
+            top: 0;
+            animation: laserMove 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes laserMove {
+            0% { top: -5%; }
+            50% { top: 105%; }
+            100% { top: -5%; }
+        }
+
+        .quantum-orbit-system {
+            position: absolute;
+            width: 850px;
+            height: 850px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(55deg) rotateZ(25deg);
+            transform-style: preserve-3d;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            inset: 0;
+            border: 3px dashed rgba(16, 185, 129, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+            animation: spinOrbit 30s linear infinite;
+        }
+
+        .orbit-ring:nth-child(2) {
+            inset: -90px;
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.25);
+            animation: spinOrbitReverse 45s linear infinite;
+        }
+
+        .orbit-ring:nth-child(3) {
+            inset: -180px;
+            border: 2px dashed rgba(52, 211, 153, 0.35);
+            animation: spinOrbit 60s linear infinite;
+        }
+
+        @keyframes spinOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes spinOrbitReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        .floating-node {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--emerald-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--emerald-glow), 0 0 50px var(--primary-emerald);
+            z-index: 3;
+            animation: floatNode 5s ease-in-out infinite;
+        }
+        .fn-1 { top: 18%; left: 15%; animation-delay: 0s; }
+        .fn-2 { top: 22%; right: 12%; animation-delay: 1.5s; background: var(--gold-accent); box-shadow: 0 0 25px var(--gold-accent), 0 0 50px var(--gold-accent); }
+        .fn-3 { bottom: 18%; left: 18%; animation-delay: 3s; }
+        .fn-4 { bottom: 22%; right: 15%; animation-delay: 2s; background: var(--gold-accent); box-shadow: 0 0 25px var(--gold-accent), 0 0 50px var(--gold-accent); }
+
+        @keyframes floatNode {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-30px) scale(1.6); opacity: 1; }
+        }
+
+        .corner-hud {
+            position: absolute;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(52, 211, 153, 0.85);
+            letter-spacing: 2px;
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+        .hud-tl { top: 30px; left: 35px; border-left: 3px solid var(--emerald-glow); padding-left: 12px; }
+        .hud-tr { top: 30px; right: 35px; text-align: right; border-right: 3px solid var(--emerald-glow); padding-right: 12px; }
+        .hud-bl { bottom: 30px; left: 35px; border-left: 3px solid var(--gold-accent); padding-left: 12px; color: rgba(251, 191, 36, 0.9); text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
+        .hud-br { bottom: 30px; right: 35px; text-align: right; border-right: 3px solid var(--gold-accent); padding-right: 12px; color: rgba(251, 191, 36, 0.9); text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
+
+        .login-unique-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 580px;
+            background: rgba(6, 12, 22, 0.92);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 2px solid rgba(16, 185, 129, 0.6);
+            border-radius: 42px;
+            box-shadow: 0 60px 150px rgba(0, 0, 0, 0.98),
+                        0 0 100px rgba(16, 185, 129, 0.4),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.6);
+            padding: 50px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateZ(70px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+        }
+
+        .login-unique-container:hover {
+            transform: translateZ(95px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 70px 170px rgba(0, 0, 0, 0.99),
+                        0 0 140px rgba(16, 185, 129, 0.65);
+        }
+
+        .login-unique-container::before,
+        .login-unique-container::after {
+            content: '';
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-color: var(--emerald-glow);
+            border-style: solid;
+            pointer-events: none;
+            box-shadow: 0 0 10px var(--emerald-glow);
+        }
+        .login-unique-container::before {
+            top: 15px;
+            left: 15px;
+            border-width: 3px 0 0 3px;
+        }
+        .login-unique-container::after {
+            bottom: 15px;
+            right: 15px;
+            border-width: 0 3px 3px 0;
+        }
+
+        /* Logo y Membrete */
+        .institution-logo-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .logo-display-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 245, 249, 0.95) 100%);
+            padding: 22px 42px;
+            border-radius: 26px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6),
+                        0 0 70px rgba(16, 185, 129, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateZ(40px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logo-display-box:hover {
+            transform: translateZ(65px) scale(1.04);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7),
+                        0 0 90px rgba(16, 185, 129, 1);
+        }
+
+        .logo-display-box img {
+            max-height: 125px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .institution-pill-unique {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.22);
+            border: 1px solid rgba(16, 185, 129, 0.6);
+            padding: 8px 18px;
+            border-radius: 50rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #34d399;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .system-title-unique h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 30px rgba(16, 185, 129, 0.7);
+        }
+
+        .system-title-unique h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold-accent);
+            margin-bottom: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+        }
+
+        .divider-unique {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.8), transparent);
+            box-shadow: 0 0 10px var(--emerald-glow);
+            margin: 24px 0;
+        }
+
+        .form-content-unique {
+            width: 100%;
+        }
+
+        .input-label-custom {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-box-wrapper {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-box-wrapper .field-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            z-index: 5;
+        }
+
+        .form-control-glass {
+            width: 100%;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 16px 20px 16px 56px;
+            font-size: 1rem;
+            color: #ffffff;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .form-control-glass::placeholder {
+            color: #64748b;
+        }
+
+        .form-control-glass:focus {
+            background: rgba(2, 6, 23, 0.98);
+            border-color: var(--emerald-glow);
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35),
+                        0 0 35px rgba(16, 185, 129, 0.6);
+            outline: none;
+        }
+
+        .form-control-glass:focus ~ .field-icon {
+            color: var(--emerald-glow);
+        }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            border: none;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 17px;
+            border-radius: 16px;
+            width: 100%;
+            font-size: 1.02rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 12px 35px rgba(5, 150, 105, 0.6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .btn-action-primary:hover {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            box-shadow: 0 18px 50px rgba(5, 150, 105, 0.8),
+                        0 0 50px rgba(52, 211, 153, 0.9);
+            transform: translateY(-3px) translateZ(10px);
+        }
+
+        .alert-glass {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.6);
+            border-radius: 14px;
+            color: #fca5a5;
+            font-size: 0.92rem;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+        }
+
+        .login-footer-info {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 25px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        #welcome-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(1, 10, 18, 0.96);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #welcome-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .welcome-card-content {
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #welcome-overlay.active .welcome-card-content {
+            transform: scale(1);
+        }
+
+        .welcome-spinner {
+            width: 90px;
+            height: 90px;
+            border: 4px solid rgba(16, 185, 129, 0.2);
+            border-top: 4px solid var(--emerald-glow);
+            border-radius: 50%;
+            animation: spinWelcome 1s linear infinite;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        }
+
+        @keyframes spinWelcome {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            color: var(--gold-accent);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        @media (max-width: 640px) {
+            .login-unique-container {
+                padding: 32px 22px;
+                border-radius: 28px;
+            }
+            .logo-display-box {
+                padding: 16px 24px;
+            }
+            .logo-display-box img {
+                max-height: 95px;
+            }
+            .system-title-unique h1 {
+                font-size: 2rem;
+            }
+            .corner-hud {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-matrix-bg"></div>
+    <div class="hud-grid-overlay"></div>
+    <div class="laser-scanline"></div>
+
+    <div class="quantum-orbit-system">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+    </div>
+
+    <div class="floating-node fn-1"></div>
+    <div class="floating-node fn-2"></div>
+    <div class="floating-node fn-3"></div>
+    <div class="floating-node fn-4"></div>
+
+    <div class="corner-hud hud-tl">
+        <span>[ SYSTEM: SECURE ]</span>
+        <span style="font-size: 0.68rem; color: #34d399;">GORE_CAJ // QUANTUM_CORE</span>
+    </div>
+    <div class="corner-hud hud-tr">
+        <span>SG-QUANTUM V2.0</span>
+        <span style="font-size: 0.68rem; color: #34d399;">NODE: 127.0.0.1</span>
+    </div>
+    <div class="corner-hud hud-bl">
+        <span>ENCRYPTION: AES-256</span>
+        <span style="font-size: 0.68rem; color: #fbbf24;">STATUS: LIVE_ACTIVE</span>
+    </div>
+    <div class="corner-hud hud-br">
+        <span>GRID_ROTATION: 3D_ON</span>
+        <span style="font-size: 0.68rem; color: #fbbf24;">SEC_LEVEL: ALPHA</span>
+    </div>
+
+    <!-- Tarjeta Central con Efecto 3D Real Elevado -->
+    <div class="login-unique-container">
+        
+        <!-- Logo y Membrete -->
+        <div class="institution-logo-header">
+            <div class="logo-display-box">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Escudo Gobierno Regional de Cajamarca" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Gobierno_Regional_Cajamarca_-_Escudo.png';">
+            </div>
+            <div class="institution-pill-unique">
+                <i class="fas fa-landmark"></i> GOBIERNO REGIONAL DE CAJAMARCA
+            </div>
+            <div class="system-title-unique">
+                <h1>SG-QUANTUM</h1>
+                <h2>Secretaría General</h2>
+            </div>
+        </div>
+
+        <div class="divider-unique"></div>
+
+        <!-- Formulario -->
+        <div class="form-content-unique">
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div>{{ message }}</div>
+                            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label for="usuario" class="input-label-custom">Usuario o Correo</label>
+                    <div class="input-box-wrapper">
+                        <input type="text" class="form-control-glass" id="usuario" name="usuario" placeholder="Ingrese su usuario institucional" required autofocus>
+                        <i class="fas fa-user field-icon"></i>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="input-label-custom">Contraseña</label>
+                    <div class="input-box-wrapper">
+                        <input type="password" class="form-control-glass" id="password" name="password" placeholder="••••••••••••" required>
+                        <i class="fas fa-lock field-icon"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-action-primary">
+                    <span>Acceder al Sistema</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="login-footer-info">
+            <i class="fas fa-fingerprint text-success"></i> Unidad Funcional de Trámite Documentario &bull; Versión 2.0
+        </div>
+
+    </div>
+
+    <div id="welcome-overlay">
+        <div class="welcome-card-content">
+            <div class="welcome-spinner"></div>
+            <div class="welcome-title">¡Bienvenido a la Aplicación de Mensajería!</div>
+            <div class="welcome-subtitle" id="userNameDisplay">Autenticando credenciales...</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const inputUsuario = document.getElementById('usuario').value;
+            const overlay = document.getElementById('welcome-overlay');
+            const nameDisplay = document.getElementById('userNameDisplay');
+
+            nameDisplay.textContent = `ACCEDIENDO: ${inputUsuario.toUpperCase()}`;
+            
+            overlay.classList.add('active');
+
+            const formReference = this;
+            setTimeout(function() {
+                formReference.submit();
+            }, 1300);
+        });
+    </script>
+</body>
+</html>

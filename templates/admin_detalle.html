@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG-Quantum - Auditoría Central #{{ entrega.id }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        :root {
+            --bg-app: #060913;
+            --surface-card: #0e1626;
+            --border-color: rgba(0, 242, 254, 0.15);
+            --border-color-glow: rgba(0, 242, 254, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-neon: #00f2fe;
+            --accent-glow: rgba(0, 242, 254, 0.18);
+            --success-neon: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.18);
+            --warning-neon: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.18);
+            --info-neon: #38bdf8;
+            --info-glow: rgba(56, 189, 248, 0.18);
+            --card-radius: 14px;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            padding: 20px 0 50px 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1050px;
+        }
+
+        .audit-banner {
+            background: linear-gradient(135deg, rgba(14, 22, 38, 0.95) 0%, rgba(9, 13, 24, 0.98) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-quantum-back, .btn-quantum-action {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-quantum-back:hover, .btn-quantum-action:hover {
+            background: var(--accent-glow);
+            color: var(--accent-neon);
+            border-color: var(--accent-neon);
+        }
+
+        .quantum-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .quantum-card-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(14, 22, 38, 0.7);
+        }
+
+        .quantum-card-header h5 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantum-card-body {
+            padding: 20px;
+        }
+
+        .data-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-neon);
+        }
+
+        .quantum-timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .quantum-timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -20px;
+            top: 3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success-neon);
+            box-shadow: 0 0 8px var(--success-glow);
+        }
+
+        .timeline-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .timeline-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .photo-frame {
+            background: #090e1a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .photo-bar {
+            padding: 8px 12px;
+            background: rgba(14, 22, 38, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .photo-viewport {
+            height: 170px;
+            background: #04060b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .photo-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .quantum-badge {
+            background: var(--success-glow);
+            color: var(--success-neon);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 6px 14px;
+            border-radius: 50rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-preaviso {
+            background: var(--warning-glow) !important;
+            color: var(--warning-neon) !important;
+            border-color: rgba(245, 158, 11, 0.4) !important;
+        }
+
+        .badge-puerta {
+            background: var(--info-glow) !important;
+            color: var(--info-neon) !important;
+            border-color: rgba(56, 189, 248, 0.4) !important;
+        }
+
+        .brand-logo-container img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .status-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-neon);
+        }
+
+        /* =========================================================
+           ESTILOS PROFESIONALES DE IMPRESIÓN IMPRESCINDIBLES (PDF)
+           ========================================================= */
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+                padding: 0 !important;
+                font-size: 11px !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .audit-banner {
+                background: #f8fafc !important;
+                border: 2px solid #0f172a !important;
+                box-shadow: none !important;
+                padding: 14px 18px !important;
+                margin-bottom: 12px !important;
+                border-radius: 8px !important;
+            }
+
+            .audit-banner h2 {
+                color: #0f172a !important;
+                font-size: 1.3rem !important;
+            }
+
+            .quantum-card {
+                background: #ffffff !important;
+                border: 1px solid #94a3b8 !important;
+                box-shadow: none !important;
+                margin-bottom: 12px !important;
+                border-radius: 8px !important;
+                page-break-inside: avoid;
+            }
+
+            .quantum-card-header {
+                background: #f1f5f9 !important;
+                border-bottom: 1px solid #94a3b8 !important;
+                padding: 8px 14px !important;
+            }
+
+            .quantum-card-header h5 {
+                color: #0f172a !important;
+                font-size: 0.85rem !important;
+            }
+
+            .quantum-card-body {
+                padding: 12px 14px !important;
+            }
+
+            .data-label {
+                color: #475569 !important;
+                font-weight: 800 !important;
+                font-size: 0.65rem !important;
+            }
+
+            .data-value, .timeline-title, .timeline-desc {
+                color: #0f172a !important;
+            }
+
+            .mono-font {
+                color: #0284c7 !important;
+                font-weight: 700 !important;
+            }
+
+            .status-pill {
+                background: #e0f2fe !important;
+                border: 1px solid #0284c7 !important;
+                color: #0369a1 !important;
+            }
+
+            .quantum-badge {
+                background: #dcfce7 !important;
+                color: #166534 !important;
+                border: 1.5px solid #15803d !important;
+            }
+
+            .badge-preaviso {
+                background: #fef3c7 !important;
+                color: #92400e !important;
+                border: 1.5px solid #d97706 !important;
+            }
+
+            .badge-puerta {
+                background: #e0f2fe !important;
+                color: #075985 !important;
+                border: 1.5px solid #0284c7 !important;
+            }
+
+            .photo-frame {
+                background: #ffffff !important;
+                border: 1px solid #64748b !important;
+                border-radius: 6px !important;
+            }
+
+            .photo-bar {
+                background: #f1f5f9 !important;
+                color: #0f172a !important;
+                border-bottom: 1px solid #94a3b8 !important;
+                padding: 5px 8px !important;
+            }
+
+            .photo-viewport {
+                height: 155px !important;
+                background: #f8fafc !important;
+            }
+
+            .photo-viewport img {
+                object-fit: cover !important;
+            }
+
+            .photo-overlay {
+                display: none !important;
+            }
+
+            .quantum-timeline::before {
+                background: #cbd5e1 !important;
+            }
+
+            .timeline-dot {
+                background: #16a34a !important;
+            }
+
+            .border-top {
+                border-top: 1px solid #cbd5e1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- CABECERA PRINCIPAL CON BOTONES -->
+        <div class="audit-banner">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2 no-print">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn-quantum-back">
+                        <i class="fas fa-arrow-left"></i> Volver al Dashboard Central
+                    </a>
+                    <button onclick="window.print();" class="btn-quantum-action">
+                        <i class="fas fa-print"></i> Imprimir / Guardar PDF
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-logo-container">
+                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo GORE Cajamarca" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Gobierno_Regional_Cajamarca_-_Escudo.png';">
+                    </div>
+                    <div>
+                        <span class="text-muted small text-uppercase tracking-wider fw-semibold d-block">Gobierno Regional de Cajamarca — Secretaría General</span>
+                        <h2 class="fw-bold m-0 d-flex align-items-center gap-2" style="font-size: 1.35rem;">
+                            CÉDULA CENTRAL DE AUDITORÍA <span class="mono-font">#{{ entrega.id }}</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div>
+                {% set t_ent = (entrega.tipo_entrega or entrega.estado or 'VERIFICADO') | lower %}
+                {% if 'preaviso' in t_ent %}
+                    <span class="quantum-badge badge-preaviso">
+                        <i class="fas fa-exclamation-triangle"></i> PREAVISO APLICADO (1° VISITA)
+                    </span>
+                {% elif 'puerta' in t_ent %}
+                    <span class="quantum-badge badge-puerta">
+                        <i class="fas fa-door-closed"></i> BAJO PUERTA (2° VISITA)
+                    </span>
+                {% else %}
+                    <span class="quantum-badge">
+                        <i class="fas fa-check-circle"></i> ENTREGA DIRECTA OK
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <!-- BLOQUE IZQUIERDO: DATOS DEL DOCUMENTO Y RECEPTOR -->
+            <div class="col-lg-6">
+                <div class="quantum-card h-100 mb-0">
+                    <div class="quantum-card-header">
+                        <h5><i class="fas fa-file-invoice text-info"></i> Datos del Expediente</h5>
+                        <span class="status-pill">SISTEMA REGISTRADO</span>
+                    </div>
+                    <div class="quantum-card-body">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <div class="data-label">Tipo de Documento</div>
+                                <div class="data-value fw-bold text-info"><i class="fas fa-bookmark me-1"></i> {{ entrega.tipo_documento }}</div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="data-label">Número de Registro</div>
+                                <div class="data-value mono-font fs-6 fw-bold">{{ entrega.numero_documento }}</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <div class="data-label">Destinatario Institucional</div>
+                            <div class="data-value fw-bold">{{ entrega.destinatario }}</div>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <div class="data-label">Dirección de Destino</div>
+                            <div class="data-value text-muted d-flex align-items-start gap-1">
+                                <i class="fas fa-map-marker-alt text-danger mt-1"></i>
+                                <span class="small">{{ entrega.direccion }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="data-label">Motorizado Asignado</div>
+                            <div class="data-value text-info fw-bold"><i class="fas fa-motorcycle me-1"></i> {{ entrega.motorizado_nombre or 'No Asignado' }}</div>
+                        </div>
+
+                        <!-- EVALUACIÓN DINÁMICA DE LA RECEPCIÓN EN CAMPO -->
+                        {% set t_ent = (entrega.tipo_entrega or entrega.estado or '') | lower %}
+                        
+                        {% if 'directo' in t_ent or 'entregado' in t_ent or entrega.nombre_receptor %}
+                            <div class="pt-2 border-top">
+                                <div class="data-label text-success mb-2 fw-bold">
+                                    <i class="fas fa-user-check me-1"></i> Datos del Receptor (Entrega Directa)
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="data-label">Persona que Recibe</div>
+                                        <div class="data-value small fw-bold">{{ entrega.nombre_receptor or 'No especificado' }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="data-label">Vínculo / Parentesco</div>
+                                        <div class="data-value small">{{ entrega.parentesco or 'Titular' }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="data-label">N° DNI / Registro</div>
+                                        <div class="data-value mono-font small">{{ entrega.dni_receptor or 'N/A' }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="data-label">Teléfono Móvil</div>
+                                        <div class="data-value mono-font small">{{ entrega.celular_receptor or 'N/A' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% elif 'preaviso' in t_ent %}
+                            <div class="pt-2 border-top">
+                                <div class="data-label text-warning mb-1 fw-bold">
+                                    <i class="fas fa-exclamation-triangle me-1"></i> Protocolo: Preaviso (Primer Intento)
+                                </div>
+                                <div class="data-value small text-muted">
+                                    Destinatario ausente en primera visita. Se fijó citación y el trámite retornará al sistema el próximo día hábil.
+                                </div>
+                                {% if entrega.fecha_limite %}
+                                <div class="mt-2">
+                                    <div class="data-label">Fecha Límite Programada</div>
+                                    <div class="data-value mono-font small text-info"><i class="far fa-calendar-alt me-1"></i> {{ entrega.fecha_limite }}</div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                        {% elif 'puerta' in t_ent %}
+                            <div class="pt-2 border-top">
+                                <div class="data-label text-info mb-1 fw-bold">
+                                    <i class="fas fa-door-closed me-1"></i> Protocolo: Notificación Bajo Puerta
+                                </div>
+                                <div class="data-value small text-muted">
+                                    Segunda visita vencida con inmueble cerrado. Documento introducido bajo la puerta principal cumpliendo el protocolo legal.
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOQUE DERECHO: TRAZABILIDAD DEL ENVÍO -->
+            <div class="col-lg-6">
+                <div class="quantum-card h-100 mb-0">
+                    <div class="quantum-card-header">
+                        <h5><i class="fas fa-route text-info"></i> Trazabilidad del Envío</h5>
+                        <span class="mono-font text-info small">PROCESO VÁLIDO</span>
+                    </div>
+                    <div class="quantum-card-body d-flex flex-column justify-content-center">
+                        <div class="quantum-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-title">Documento Registrado</div>
+                                <div class="timeline-desc">Ingreso oficial al sistema y derivación para reparto.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-title">Asignado a Motorizado</div>
+                                <div class="timeline-desc">Ruta calculada y asignado a {{ entrega.motorizado_nombre or 'Motorizado' }}.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-title">Visita en Destino</div>
+                                <div class="timeline-desc">Arribo a la dirección e inspección del inmueble.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-title">Cierre de Gestión</div>
+                                <div class="timeline-desc">
+                                    {% if 'preaviso' in t_ent %}
+                                        Preaviso dejado en domicilio. Esperando 2° visita.
+                                    {% elif 'puerta' in t_ent %}
+                                        Notificación bajo puerta ejecutada con respaldo visual.
+                                    {% else %}
+                                        Entrega conforme con firma/receptor en domicilio.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVIDENCIAS FOTOGRÁFICAS -->
+        <div class="quantum-card mt-3">
+            <div class="quantum-card-header">
+                <h5><i class="fas fa-images text-success"></i> Evidencias Fotográficas de Campo</h5>
+                <span class="mono-font text-success small">AUDITORÍA VISUAL</span>
+            </div>
+            <div class="quantum-card-body">
+                <div class="row g-3">
+                    <!-- Foto 1: Fachada -->
+                    <div class="col-4">
+                        <div class="photo-frame">
+                            <div class="photo-bar">
+                                <span>1. FACHADA / INMUEBLE</span>
+                                <span class="mono-font text-muted">01</span>
+                            </div>
+                            <div class="photo-viewport">
+                                {% if entrega.foto_casa %}
+                                    {% set foto_casa_url = entrega.foto_casa if entrega.foto_casa.startswith('http') or entrega.foto_casa.startswith('data:image') else url_for('static', filename='uploads/' + entrega.foto_casa) %}
+                                    <a href="{{ foto_casa_url }}" target="_blank" class="w-100 h-100 d-block position-relative">
+                                        <img src="{{ foto_casa_url }}" alt="Fachada">
+                                        <div class="photo-overlay">
+                                            <span class="btn-view-image"><i class="fas fa-search-plus me-1"></i> Ampliar</span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <div class="text-muted text-center p-2 d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="fas fa-image fa-2x mb-1 opacity-25"></i>
+                                        <span class="small font-monospace">Sin foto</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Foto 2: Calle -->
+                    <div class="col-4">
+                        <div class="photo-frame">
+                            <div class="photo-bar">
+                                <span>2. ENTORNO / VÍA PÚBLICA</span>
+                                <span class="mono-font text-muted">02</span>
+                            </div>
+                            <div class="photo-viewport">
+                                {% if entrega.foto_calle %}
+                                    {% set foto_calle_url = entrega.foto_calle if entrega.foto_calle.startswith('http') or entrega.foto_calle.startswith('data:image') else url_for('static', filename='uploads/' + entrega.foto_calle) %}
+                                    <a href="{{ foto_calle_url }}" target="_blank" class="w-100 h-100 d-block position-relative">
+                                        <img src="{{ foto_calle_url }}" alt="Calle">
+                                        <div class="photo-overlay">
+                                            <span class="btn-view-image"><i class="fas fa-search-plus me-1"></i> Ampliar</span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <div class="text-muted text-center p-2 d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="fas fa-image fa-2x mb-1 opacity-25"></i>
+                                        <span class="small font-monospace">Sin foto</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Foto 3: Cargo / Preaviso -->
+                    <div class="col-4">
+                        <div class="photo-frame">
+                            <div class="photo-bar">
+                                <span>3. ACTA / CARGO / PREAVISO</span>
+                                <span class="mono-font text-muted">03</span>
+                            </div>
+                            <div class="photo-viewport">
+                                {% if entrega.foto_cargo_o_preaviso %}
+                                    {% set foto_cargo_url = entrega.foto_cargo_o_preaviso if entrega.foto_cargo_o_preaviso.startswith('http') or entrega.foto_cargo_o_preaviso.startswith('data:image') else url_for('static', filename='uploads/' + entrega.foto_cargo_o_preaviso) %}
+                                    <a href="{{ foto_cargo_url }}" target="_blank" class="w-100 h-100 d-block position-relative">
+                                        <img src="{{ foto_cargo_url }}" alt="Cargo">
+                                        <div class="photo-overlay">
+                                            <span class="btn-view-image"><i class="fas fa-search-plus me-1"></i> Ampliar</span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <div class="text-muted text-center p-2 d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="fas fa-image fa-2x mb-1 opacity-25"></i>
+                                        <span class="small font-monospace">Sin foto</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
