@@ -325,7 +325,7 @@
                 <div class="quantum-card h-100">
                     <h5 class="fw-bold mb-4 text-info" style="font-size: 1rem;"><i class="fas fa-plus-circle me-2"></i> Nueva Entrega</h5>
                     
-                    <form action="{{ url_for('admin_entregas') }}" method="POST">
+                    <form action="{{ url_for('gestionar_entregas') }}" method="POST">
                         <div class="mb-3">
                             <label class="form-label-quantum">Tipo de Documento</label>
                             <input type="text" class="form-control" name="tipo_documento" placeholder="Ej. Notificación, Oficio" required>
@@ -351,7 +351,7 @@
                             <select class="form-select" name="motorizado_id" required>
                                 <option value="" selected disabled>Seleccione un motorizado</option>
                                 {% for m in motorizados %}
-                                    <option value="{{ m.id }}">{{ m.nombre }}</option>
+                                    <option value="{{ m['id'] }}">{{ m['nombre_completo'] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -385,20 +385,20 @@
                                     {% for item in entregas %}
                                     <tr>
                                         <td>
-                                            <span class="d-block fw-bold text-info">{{ item.tipo_documento }}</span>
-                                            <small class="font-monospace text-muted">{{ item.numero_documento }}</small>
+                                            <span class="d-block fw-bold text-info">{{ item['tipo_documento'] }}</span>
+                                            <small class="font-monospace text-muted">{{ item['numero_documento'] }}</small>
                                         </td>
-                                        <td>{{ item.destinatario }}</td>
-                                        <td class="text-muted small">{{ item.direccion }}</td>
+                                        <td>{{ item['destinatario'] }}</td>
+                                        <td class="text-muted small">{{ item['direccion'] }}</td>
                                         <td>
-                                            {% if item.motorizado %}
-                                                {{ item.motorizado.nombre }}
+                                            {% if item['motorizado_nombre'] %}
+                                                {{ item['motorizado_nombre'] }}
                                             {% else %}
                                                 <span class="text-warning">Sin asignar</span>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% set estado_lower = (item.estado or '') | lower %}
+                                            {% set estado_lower = (item['estado'] or '') | lower %}
                                             {% if 'completad' in estado_lower or 'entregad' in estado_lower or 'directo' in estado_lower %}
                                                 <span class="badge-status badge-success">Completado</span>
                                             {% else %}
@@ -406,7 +406,7 @@
                                             {% endif %}
                                         </td>
                                         <td class="text-end">
-                                            <a href="{{ url_for('motorizado_detalle', entrega_id=item.id) }}" class="btn btn-sm btn-outline-info" title="Ver Cédula de Auditoría">
+                                            <a href="{{ url_for('admin_detalle', entrega_id=item['id']) }}" class="btn btn-sm btn-outline-info" title="Ver Cédula de Auditoría">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
