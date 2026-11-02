@@ -9,13 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #020611;
-            --card-bg: rgba(15, 23, 42, 0.85);
-            --emerald-primary: #059669;
-            --emerald-neon: #10b981;
-            --emerald-dark: #022c22;
-            --gold-accent: #fbbf24;
-            --border-color: rgba(16, 185, 129, 0.25);
+            --bg-deep: #0b192c;
+            --card-bg: rgba(20, 40, 65, 0.85);
+            --emerald-primary: #1e88e5;
+            --emerald-neon: #38bdf8;
+            --emerald-dark: #06101e;
+            --gold-accent: #90caf9;
+            --border-color: rgba(30, 136, 229, 0.25);
         }
 
         body {
@@ -25,8 +25,10 @@
             min-height: 100vh;
             margin: 0;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(2, 44, 34, 0.2) 0%, transparent 45%);
+                radial-gradient(circle at 50% -30%, rgba(30, 136, 229, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
             background-attachment: fixed;
         }
 
@@ -45,7 +47,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(2, 6, 17, 0.85);
+            background: rgba(6, 16, 30, 0.9);
             backdrop-filter: blur(8px);
             z-index: 9999;
             display: flex;
@@ -63,7 +65,7 @@
         }
 
         .action-box {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(20, 40, 65, 0.95);
             border: 2px solid;
             padding: 35px 50px;
             border-radius: 20px;
@@ -79,7 +81,7 @@
 
         .action-box.creating {
             border-color: var(--emerald-neon);
-            box-shadow: 0 0 40px rgba(16, 185, 129, 0.4), 0 25px 50px rgba(0,0,0,0.7);
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4), 0 25px 50px rgba(0,0,0,0.7);
         }
 
         .action-box.deleting {
@@ -110,10 +112,11 @@
         }
 
         .navbar-quantum {
-            background: rgba(2, 6, 17, 0.92);
+            background: rgba(6, 16, 30, 0.92);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             padding: 12px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
 
         .navbar-brand img {
@@ -124,6 +127,7 @@
             background: #ffffff;
             padding: 4px 8px;
             border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
         .navbar-nav .nav-link {
@@ -135,8 +139,9 @@
         }
 
         .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
-            color: var(--emerald-neon) !important;
-            background: rgba(16, 185, 129, 0.1);
+            color: #ffffff !important;
+            background: rgba(30, 136, 229, 0.2);
+            border: 1px solid rgba(30, 136, 229, 0.4);
         }
 
         .quantum-card {
@@ -164,8 +169,9 @@
         }
 
         .btn-back:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 136, 229, 0.15);
             color: #ffffff;
+            border-color: rgba(30, 136, 229, 0.4);
         }
 
         .form-label {
@@ -178,7 +184,7 @@
         }
 
         .form-control {
-            background: rgba(2, 6, 23, 0.8);
+            background: rgba(6, 16, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ffffff;
             border-radius: 12px;
@@ -188,14 +194,14 @@
         }
 
         .form-control:focus {
-            background: rgba(2, 6, 23, 0.95);
+            background: rgba(6, 16, 30, 0.95);
             border-color: var(--emerald-neon);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
             color: #ffffff;
         }
 
         .btn-emerald {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            background: #1e88e5;
             border: none;
             color: #ffffff;
             font-weight: 700;
@@ -203,15 +209,15 @@
             border-radius: 12px;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+            box-shadow: 0 8px 20px rgba(30, 136, 229, 0.4);
             letter-spacing: 0.5px;
             text-transform: uppercase;
             font-size: 0.9rem;
         }
 
         .btn-emerald:hover {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 12px 25px rgba(5, 150, 105, 0.6);
+            background: #1976d2;
+            box-shadow: 0 12px 25px rgba(30, 136, 229, 0.6);
             transform: translateY(-2px);
             color: #ffffff;
         }
@@ -229,11 +235,11 @@
         }
 
         .table-dark {
-            background-color: rgba(3, 7, 18, 0.9);
+            background-color: rgba(6, 16, 30, 0.9);
         }
 
         .table-dark th {
-            background-color: rgba(5, 150, 105, 0.2);
+            background-color: rgba(30, 136, 229, 0.25);
             color: var(--emerald-neon);
             font-weight: 700;
             text-transform: uppercase;
@@ -244,7 +250,7 @@
         }
 
         .table-dark td {
-            background-color: rgba(15, 23, 42, 0.6);
+            background-color: rgba(20, 40, 65, 0.6);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 14px 16px;
             color: #e2e8f0;
@@ -290,7 +296,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center gap-2">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-chart-pie me-1"></i> Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/admin/motorizados"><i class="fas fa-motorcycle me-1 text-success"></i> Motorizados</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/admin/motorizados"><i class="fas fa-motorcycle me-1 text-info"></i> Motorizados</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/entregas"><i class="fas fa-file-invoice me-1"></i> Entregas</a></li>
                     <li class="nav-item ms-2"><a class="nav-link text-danger border border-danger border-opacity-25 rounded-3 px-3 py-2" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Salir</a></li>
                 </ul>
@@ -302,14 +308,14 @@
         <div class="mb-4">
             <a href="{{ url_for('admin_dashboard') }}" class="btn-back mb-3"><i class="fas fa-arrow-left"></i> Volver al Panel</a>
             <h3 class="fw-bold text-light d-flex align-items-center gap-2 m-0">
-                <i class="fas fa-motorcycle text-success"></i> Administración de Motorizados
+                <i class="fas fa-motorcycle text-info"></i> Administración de Motorizados
             </h3>
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-            <div class="alert alert-dismissible fade show shadow-sm mb-4 animate-fade-in" role="alert" style="background: {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.15){% else %}rgba(16, 185, 129, 0.15){% endif %}; color: {% if category == 'danger' or category == 'error' %}#fca5a5{% else %}#6ee7b7{% endif %}; border: 1px solid {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.3){% else %}rgba(16, 185, 129, 0.3){% endif %};">
+            <div class="alert alert-dismissible fade show shadow-sm mb-4 animate-fade-in" role="alert" style="background: {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.15){% else %}rgba(30, 136, 229, 0.15){% endif %}; color: {% if category == 'danger' or category == 'error' %}#fca5a5{% else %}#38bdf8{% endif %}; border: 1px solid {% if category == 'danger' or category == 'error' %}rgba(239, 68, 68, 0.3){% else %}rgba(30, 136, 229, 0.3){% endif %};">
                 <div class="d-flex align-items-center gap-2">
                     <i class="fas {% if category == 'danger' or category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
                     <div>{{ message }}</div>
@@ -325,7 +331,7 @@
             <div class="col-lg-4">
                 <div class="quantum-card h-100">
                     <h5 class="card-title text-light mb-4 d-flex align-items-center gap-2 fs-5">
-                        <i class="fas fa-user-plus text-success"></i> Nuevo Motorizado
+                        <i class="fas fa-user-plus text-info"></i> Nuevo Motorizado
                     </h5>
                     <form id="createForm" method="POST">
                         <div class="mb-3">
@@ -350,7 +356,7 @@
             <div class="col-lg-8">
                 <div class="quantum-card h-100">
                     <h5 class="card-title text-light mb-4 d-flex align-items-center gap-2 fs-5">
-                        <i class="fas fa-list-ul text-success"></i> Lista de Motorizados Actuales
+                        <i class="fas fa-list-ul text-info"></i> Lista de Motorizados Actuales
                     </h5>
                     <div class="table-responsive">
                         <table class="table table-dark align-middle mb-0">
@@ -365,7 +371,7 @@
                                 {% for m in motorizados %}
                                 <tr>
                                     <td class="fw-semibold text-white">{{ m.nombre_completo }}</td>
-                                    <td><code class="text-success bg-success bg-opacity-10 px-2 py-1 rounded">{{ m.username }}</code></td>
+                                    <td><code class="text-info bg-info bg-opacity-10 px-2 py-1 rounded">{{ m.username }}</code></td>
                                     <td class="text-end">
                                         <a href="{{ url_for('eliminar_motorizado', id=m.id) }}" class="btn btn-sm btn-outline-danger px-3 py-1 delete-btn">
                                             <i class="fas fa-trash me-1"></i> Eliminar
