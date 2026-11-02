@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         :root {
-            --bg-base: #010306;
-            --bg-hud: #040810;
-            --bg-hud-hover: #081222;
-            --neon-green: #00ff66;
-            --neon-glow: rgba(0, 255, 102, 0.4);
-            --neon-border: rgba(0, 255, 102, 0.3);
-            --neon-border-hover: rgba(0, 255, 102, 0.8);
+            --bg-base: #0b192c;
+            --bg-hud: #142841;
+            --bg-hud-hover: #1e3e62;
+            --neon-green: #10b981;
+            --neon-glow: rgba(16, 185, 129, 0.25);
+            --neon-border: rgba(30, 136, 229, 0.3);
+            --neon-border-hover: rgba(30, 136, 229, 0.7);
             --text-main: #f1f5f9;
-            --text-dim: #64748b;
+            --text-dim: #94a3b8;
             --text-bright: #ffffff;
             --warning-core: #f59e0b;
             --warning-glow: rgba(245, 158, 11, 0.4);
@@ -35,9 +35,9 @@
             padding-bottom: 100px;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 50% -30%, rgba(0, 255, 102, 0.12) 0%, transparent 60%),
-                linear-gradient(rgba(0, 255, 102, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.015) 1px, transparent 1px);
+                radial-gradient(circle at 50% -30%, rgba(30, 136, 229, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
             min-height: 100vh;
         }
@@ -67,7 +67,7 @@
         .delay-3 { animation-delay: 0.3s; }
 
         .navbar-quantum {
-            background: rgba(2, 5, 10, 0.92);
+            background: rgba(6, 16, 30, 0.92);
             backdrop-filter: blur(25px);
             border-bottom: 1px solid var(--neon-border);
             padding: 16px 40px;
@@ -75,7 +75,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), inset 0 -1px 0 rgba(0, 255, 102, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), inset 0 -1px 0 rgba(30, 136, 229, 0.2);
             animation: fadeInSlide 0.4s ease-out;
         }
 
@@ -115,18 +115,18 @@
             letter-spacing: 2px;
             line-height: 1;
             display: block;
-            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         .brand-text .subtitle {
             font-size: 0.6rem;
-            color: var(--neon-green);
+            color: #90caf9;
             font-weight: 800;
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-top: 5px;
             display: block;
-            text-shadow: 0 0 10px var(--neon-glow);
+            text-shadow: 0 0 10px rgba(30,136,229,0.3);
         }
 
         .nav-link-quantum {
@@ -146,18 +146,18 @@
         }
 
         .nav-link-quantum:hover {
-            color: var(--neon-green);
-            background: rgba(0, 255, 102, 0.05);
+            color: #ffffff;
+            background: rgba(30, 136, 229, 0.08);
             border-color: var(--neon-border);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 20px rgba(30, 136, 229, 0.15);
             transform: translateY(-2px);
         }
 
         .nav-link-quantum.active {
-            color: var(--neon-green);
-            background: rgba(0, 255, 102, 0.1);
+            color: #ffffff;
+            background: rgba(30, 136, 229, 0.15);
             border-color: var(--neon-border-hover);
-            box-shadow: 0 0 25px var(--neon-glow);
+            box-shadow: 0 0 25px rgba(30, 136, 229, 0.3);
         }
 
         .btn-logout-quantum {
@@ -189,7 +189,7 @@
         .page-header-quantum {
             margin-bottom: 45px;
             padding-bottom: 25px;
-            border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+            border-bottom: 1px solid rgba(30, 136, 229, 0.2);
             position: relative;
         }
 
@@ -205,19 +205,19 @@
         }
 
         .page-header-quantum h2 i {
-            color: var(--neon-green);
-            background: rgba(0, 255, 102, 0.08);
+            color: #64b5f6;
+            background: rgba(30, 136, 229, 0.1);
             padding: 16px;
             border-radius: 14px;
             font-size: 1.4rem;
             border: 1px solid var(--neon-border);
-            box-shadow: 0 0 35px var(--neon-glow);
+            box-shadow: 0 0 35px rgba(30, 136, 229, 0.2);
             animation: pulseGlow 3s infinite alternate;
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
-            100% { box-shadow: 0 0 35px rgba(0, 255, 102, 0.6); }
+            0% { box-shadow: 0 0 15px rgba(30, 136, 229, 0.2); }
+            100% { box-shadow: 0 0 35px rgba(30, 136, 229, 0.5); }
         }
 
         .page-header-quantum p {
@@ -291,7 +291,7 @@
             right: -20px;
             width: 140px;
             height: 140px;
-            background: radial-gradient(circle, var(--card-glow, var(--neon-glow)) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--card-glow, rgba(30,136,229,0.3)) 0%, transparent 70%);
             opacity: 0.7;
             pointer-events: none;
         }
@@ -303,15 +303,15 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: var(--card-accent, var(--neon-green));
-            box-shadow: 0 0 25px var(--card-accent, var(--neon-green));
+            background: var(--card-accent, #1e88e5);
+            box-shadow: 0 0 25px var(--card-accent, #1e88e5);
             transition: height 0.3s ease;
         }
 
         .stat-card-quantum:hover {
             border-color: var(--neon-border-hover);
             transform: translateY(-6px);
-            box-shadow: 0 30px 60px -15px rgba(0, 255, 102, 0.3);
+            box-shadow: 0 30px 60px -15px rgba(30, 136, 229, 0.25);
             background: var(--bg-hud-hover);
         }
 
@@ -374,10 +374,10 @@
         }
 
         .stat-icon-box.success {
-            background: rgba(0, 255, 102, 0.08);
-            color: var(--neon-green);
-            border-color: var(--neon-border);
-            box-shadow: 0 0 35px var(--neon-glow);
+            background: rgba(16, 185, 129, 0.08);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
         }
 
         .pro-card {
@@ -416,13 +416,13 @@
         }
 
         .card-header-pro h5 i {
-            color: var(--neon-green);
-            background: rgba(0, 255, 102, 0.08);
+            color: #64b5f6;
+            background: rgba(30, 136, 229, 0.1);
             padding: 12px;
             border-radius: 12px;
             font-size: 1rem;
             border: 1px solid var(--neon-border);
-            box-shadow: 0 0 25px var(--neon-glow);
+            box-shadow: 0 0 25px rgba(30, 136, 229, 0.2);
         }
 
         .table-pro {
@@ -433,7 +433,7 @@
         }
 
         .table-pro th {
-            background: rgba(1, 3, 6, 0.85);
+            background: rgba(6, 16, 30, 0.85);
             color: var(--text-dim);
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -459,14 +459,14 @@
         }
 
         .table-pro tr:hover td {
-            background: rgba(0, 255, 102, 0.04) !important;
+            background: rgba(30, 136, 229, 0.05) !important;
         }
 
         .mono-text {
             font-family: 'JetBrains Mono', monospace;
-            color: var(--neon-green);
+            color: #90caf9;
             font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            text-shadow: 0 0 15px rgba(30, 136, 229, 0.2);
         }
 
         .btn-action-icon {
@@ -486,10 +486,10 @@
         }
 
         .btn-action-icon:hover {
-            background: var(--neon-green);
-            color: var(--bg-base);
-            border-color: var(--neon-green);
-            box-shadow: 0 0 30px var(--neon-glow);
+            background: #1e88e5;
+            color: #ffffff;
+            border-color: #1e88e5;
+            box-shadow: 0 0 30px rgba(30, 136, 229, 0.4);
             transform: translateY(-4px) scale(1.1);
         }
 
@@ -501,9 +501,8 @@
             background-color: transparent !important;
             letter-spacing: 0.8px;
         }
-
         .alert-quantum {
-            background: rgba(4, 8, 16, 0.95);
+            background: rgba(6, 16, 30, 0.95);
             border: 1px solid var(--neon-border);
             color: var(--text-main);
             border-radius: 20px;
@@ -523,7 +522,7 @@
         }
 
         .modal-content.quantum-purge-modal {
-            background: #02050a;
+            background: #0b192c;
             border: 1px solid var(--danger-core);
             box-shadow: 0 0 50px rgba(239, 68, 68, 0.4);
             border-radius: 24px;
@@ -623,7 +622,7 @@
                 </div>
             </div>
             <div class="col-md-4 animate-fade-in delay-3">
-                <div class="stat-card-quantum" style="--card-accent: var(--neon-green); --card-glow: var(--neon-glow);">
+                <div class="stat-card-quantum" style="--card-accent: #10b981; --card-glow: rgba(16,185,129,0.3);">
                     <div class="stat-meta">
                         <div class="label">Entregas Validadas</div>
                         <div class="value">{{ entregadas|length }}</div>
@@ -751,7 +750,7 @@
         <div class="pro-card animate-fade-in delay-3">
             <div class="card-header-pro">
                 <h5><i class="fas fa-check-double"></i> Entregas Completadas y Validadas</h5>
-                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-45 px-4 py-2 rounded-pill font-monospace fw-bold" style="font-size: 0.72rem; box-shadow: 0 0 25px var(--neon-glow);">FINALIZADO</span>
+                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-45 px-4 py-2 rounded-pill font-monospace fw-bold" style="font-size: 0.72rem; box-shadow: 0 0 25px rgba(16,185,129,0.25);">FINALIZADO</span>
             </div>
             <div class="table-responsive">
                 <table class="table table-pro">
