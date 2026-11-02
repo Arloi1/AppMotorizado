@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SG-Quantum - Gestión y Asignación de Entregas</title>
+    <title>Gestión y Asignación de Entregas - SG-QUANTUM</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#0b192c">
+
     <style>
         :root {
             --bg-deep: #0b192c;
             --card-bg: #142841;
             --border-subtle: rgba(30, 136, 229, 0.25);
-            --primary-accent: #38bdf8;
-            --primary-light: rgba(56, 189, 248, 0.12);
+            --primary-accent: #1e88e5;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
+            --success-accent: #10b981;
         }
 
         body {
@@ -26,22 +28,39 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
             margin: 0;
-            padding-bottom: 50px;
-            -webkit-font-smoothing: antialiased;
+            padding-bottom: 60px;
+        }
+
+        .bg-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%; 
+            top: 0;
+            left: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
         }
 
         .navbar-quantum {
             background: #06101e;
             border-bottom: 1px solid var(--border-subtle);
-            padding: 12px 24px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
 
         .brand-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             text-decoration: none;
         }
 
@@ -52,7 +71,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
         .brand-logo-box img {
@@ -66,35 +84,33 @@
             color: #ffffff;
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            line-height: 1.1;
             display: block;
         }
 
         .brand-text .subtitle {
-            font-size: 0.6rem;
+            font-size: 0.62rem;
             color: #90caf9;
             font-weight: 700;
             letter-spacing: 0.8px;
             text-transform: uppercase;
         }
 
-        .nav-link-quantum {
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
+        .nav-links {
+            display: flex;
+            gap: 20px;
             align-items: center;
-            gap: 8px;
         }
 
-        .nav-link-quantum:hover, .nav-link-quantum.active {
-            color: #ffffff;
-            background: rgba(30, 136, 229, 0.2);
-            border: 1px solid rgba(30, 136, 229, 0.4);
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #38bdf8;
         }
 
         .btn-logout-quantum {
@@ -109,348 +125,308 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
-        .btn-logout-quantum:hover {
+        .btn-logout-quantum:hover { 
             background: #ef4444;
             color: #ffffff;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
         }
 
-        .container {
-            max-width: 1400px;
+        .container-dashboard {
+            max-width: 1350px;
+            margin: 35px auto;
+            padding: 0 24px;
         }
 
-        .btn-back {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-muted);
-            font-weight: 600;
-            border-radius: 10px;
-            padding: 8px 16px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+        .section-header {
+            margin-bottom: 25px;
         }
 
-        .btn-back:hover {
-            background: rgba(30, 136, 229, 0.15);
-            color: #ffffff;
-            border-color: rgba(30, 136, 229, 0.4);
-        }
-
-        .pro-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            padding: 24px;
-            height: 100%;
-        }
-
-        .card-header-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-main);
+        .section-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 0 6px 0;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-subtle);
         }
 
-        .card-header-title i {
-            color: var(--primary-accent);
-            background: var(--primary-light);
-            padding: 7px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-
-        .form-label {
+        .section-header p {
             color: var(--text-muted);
-            font-size: 0.7rem;
+            font-size: 0.88rem;
+            margin: 0;
+        }
+
+        .quantum-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 25px;
+        }
+
+        .form-label-quantum {
             font-weight: 700;
+            font-size: 0.78rem;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .form-control, .form-select {
-            background: rgba(6, 16, 30, 0.7);
+            background: #06101e;
             border: 1px solid var(--border-subtle);
-            color: #ffffff;
+            color: #fff;
+            padding: 11px 16px;
             border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.88rem;
-            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
         .form-control:focus, .form-select:focus {
-            background: rgba(6, 16, 30, 0.95);
+            background: #06101e;
             border-color: var(--primary-accent);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+        }
+
+        .btn-quantum-primary {
+            background: var(--primary-accent);
             color: #ffffff;
-        }
-
-        .form-control::placeholder {
-            color: #475569;
-        }
-
-        .form-select option {
-            background-color: #142841;
-            color: #ffffff;
-        }
-
-        .btn-quantum {
-            background: #1e88e5;
             border: none;
-            color: #ffffff;
-            font-weight: 700;
-            padding: 11px 20px;
-            border-radius: 10px;
             width: 100%;
-            transition: all 0.2s ease;
-            letter-spacing: 0.5px;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            font-size: 0.82rem;
+            letter-spacing: 0.8px;
+            transition: all 0.2s;
             box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
         }
 
-        .btn-quantum:hover {
+        .btn-quantum-primary:hover {
             background: #1976d2;
-            transform: translateY(-1px);
             box-shadow: 0 6px 20px rgba(30, 136, 229, 0.5);
         }
 
-        .table-responsive {
-            border-radius: 12px;
-            overflow-x: auto;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .table-pro {
-            margin: 0;
+        .table-quantum {
             color: var(--text-main);
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table-pro th {
-            background: rgba(6, 16, 30, 0.85);
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 700;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-subtle);
-            white-space: nowrap;
-        }
-
-        .table-pro td {
-            padding: 16px 18px;
             vertical-align: middle;
             font-size: 0.88rem;
+        }
+
+        .table-quantum th {
+            background: #06101e;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-family: 'JetBrains Mono', monospace;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 14px 16px;
+        }
+
+        .table-quantum td {
+            background: transparent;
             color: var(--text-main);
             border-bottom: 1px solid var(--border-subtle);
-            background: rgba(20, 40, 65, 0.4);
+            padding: 14px 16px;
         }
 
-        .table-pro tr:last-child td {
-            border-bottom: none;
+        .table-quantum tbody tr:hover td {
+            background: rgba(30, 136, 229, 0.05);
         }
 
-        .table-pro tr:hover td {
-            background: rgba(30, 136, 229, 0.06);
-        }
-
-        .mono-text {
+        .badge-status {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
             font-family: 'JetBrains Mono', monospace;
-            color: #90caf9;
         }
 
-        .btn-action-delete {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-            text-decoration: none;
-            transition: all 0.2s ease;
+        .badge-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
-        .btn-action-delete:hover {
-            background: #ef4444;
-            color: #ffffff;
-            border-color: #ef4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        .badge-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-glass {
+            background: rgba(30, 136, 229, 0.15);
+            border: 1px solid rgba(30, 136, 229, 0.35);
+            color: #38bdf8;
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 25px;
         }
     </style>
 </head>
+
 <body>
 
-    <nav class="navbar navbar-quantum navbar-expand-lg">
-        <div class="container-fluid px-0">
-            <a href="{{ url_for('admin_dashboard') }}" class="brand-container">
-                <div class="brand-logo-box">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo GRC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Gobierno_Regional_Cajamarca_-_Escudo.png';">
-                </div>
-                <div class="brand-text">
-                    <span class="title">SG-QUANTUM</span>
-                    <span class="subtitle">SECRETARÍA GENERAL - GRC</span>
-                </div>
-            </a>
-            
-            <div class="d-flex align-items-center gap-1 ms-auto me-4">
-                <a href="{{ url_for('admin_dashboard') }}" class="nav-link-quantum"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <a href="{{ url_for('gestionar_motorizados') }}" class="nav-link-quantum"><i class="fas fa-motorcycle"></i> Motorizados</a>
-                <a href="{{ url_for('gestionar_entregas') }}" class="nav-link-quantum active"><i class="fas fa-file-alt"></i> Entregas</a>
-            </div>
+    <div class="bg-grid"></div>
 
-            <div>
-                <a href="{{ url_for('logout') }}" class="btn-logout-quantum">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </a>
+    <nav class="navbar-quantum">
+        <a href="{{ url_for('admin_dashboard') }}" class="brand-container">
+            <div class="brand-logo-box">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Escudo GRC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Gobierno_Regional_Cajamarca_-_Escudo.png';">
             </div>
+            <div class="brand-text">
+                <span class="title">SG-QUANTUM</span>
+                <span class="subtitle">SECRETARÍA GENERAL - GRC</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_motorizados') }}">Motorizados</a>
+            <a href="{{ url_for('admin_entregas') }}" class="active">Entregas</a>
         </div>
+        <a href="{{ url_for('logout') }}" class="btn-logout-quantum">
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </a>
     </nav>
 
-    <div class="container">
-        <div class="mb-4">
-            <a href="{{ url_for('admin_dashboard') }}" class="btn-back mb-3"><i class="fas fa-arrow-left"></i> Volver al Panel</a>
-            <h2 class="fw-bold text-light d-flex align-items-center gap-2 m-0" style="font-size: 1.5rem;">
-                <i class="fas fa-file-alt text-success" style="color: var(--primary-accent) !important;"></i> Gestión y Asignación de Entregas
-            </h2>
-            <p class="text-muted mt-1 mb-0" style="font-size: 0.9rem;">Registra nuevos documentos y asígnalos al personal de reparto disponible.</p>
-        </div>
+    <div class="container-dashboard">
 
-        <!-- Mensajes Flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show shadow-sm border-0 mb-4 rounded-3" role="alert" style="background: rgba(30, 136, 229, 0.15); color: #38bdf8; border: 1px solid rgba(30, 136, 229, 0.3) !important;">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fas fa-info-circle"></i>
-                            <div>{{ message }}</div>
-                        </div>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert alert-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <div>{{ message }}</div>
+                        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
-        <div class="row g-4">
+        <div class="section-header">
+            <h2><i class="fas fa-file-invoice text-info"></i> Gestión y Asignación de Entregas</h2>
+            <p>Registra nuevos documentos y asígnalos al personal de reparto disponible.</p>
+        </div>
 
-            <div class="col-lg-4">
-                <div class="pro-card">
-                    <h5 class="card-header-title">
-                        <i class="fas fa-plus-circle"></i> Nueva Entrega
-                    </h5>
-                    <form method="POST">
+        <div class="row">
+            <!-- Formulario de Nueva Entrega -->
+            <div class="col-lg-4 mb-4">
+                <div class="quantum-card h-100">
+                    <h5 class="fw-bold mb-4 text-info" style="font-size: 1rem;"><i class="fas fa-plus-circle me-2"></i> Nueva Entrega</h5>
+                    
+                    <form action="{{ url_for('admin_entregas') }}" method="POST">
                         <div class="mb-3">
-                            <label class="form-label">Tipo de Documento</label>
+                            <label class="form-label-quantum">Tipo de Documento</label>
                             <input type="text" class="form-control" name="tipo_documento" placeholder="Ej. Notificación, Oficio" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Número de Documento</label>
+                            <label class="form-label-quantum">Número de Documento</label>
                             <input type="text" class="form-control" name="numero_documento" placeholder="Ej. 001-2026-GRC" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Destinatario</label>
+                            <label class="form-label-quantum">Destinatario</label>
                             <input type="text" class="form-control" name="destinatario" placeholder="Nombre de la persona" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Dirección</label>
+                            <label class="form-label-quantum">Dirección</label>
                             <input type="text" class="form-control" name="direccion" placeholder="Jr. / Av. Destino" required>
                         </div>
+
                         <div class="mb-4">
-                            <label class="form-label">Asignar Motorizado</label>
-                            <select name="motorizado_id" class="form-select" required>
-                                <option value="">Seleccione un motorizado</option>
+                            <label class="form-label-quantum">Asignar Motorizado</label>
+                            <select class="form-select" name="motorizado_id" required>
+                                <option value="" selected disabled>Seleccione un motorizado</option>
                                 {% for m in motorizados %}
-                                <option value="{{ m.id }}">{{ m.nombre_completo }}</option>
+                                    <option value="{{ m.id }}">{{ m.nombre }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-quantum">
-                            <i class="fas fa-save me-1"></i> Guardar y Asignar
+
+                        <button type="submit" class="btn-quantum-primary">
+                            <i class="fas fa-save me-2"></i> Guardar y Asignar
                         </button>
                     </form>
                 </div>
             </div>
 
-            <div class="col-lg-8">
-                <div class="pro-card">
-                    <h5 class="card-header-title">
-                        <i class="fas fa-list-ul"></i> Entregas Registradas en el Sistema
-                    </h5>
+            <!-- Tabla de Entregas Registradas -->
+            <div class="col-lg-8 mb-4">
+                <div class="quantum-card h-100">
+                    <h5 class="fw-bold mb-4 text-info" style="font-size: 1rem;"><i class="fas fa-list me-2"></i> Entregas Registradas en el Sistema</h5>
+                    
                     <div class="table-responsive">
-                        <table class="table table-pro">
+                        <table class="table table-quantum align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th>Tipo / Nro Doc</th>
+                                    <th>Documento / Nro</th>
                                     <th>Destinatario</th>
                                     <th>Dirección</th>
                                     <th>Motorizado</th>
                                     <th>Estado</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th class="text-end">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for e in entregadas %}
-                                <tr>
-                                    <td>
-                                        <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 fw-semibold" style="font-size: 0.72rem;">{{ e.tipo_documento }}</span><br>
-                                        <span class="mono-text fw-bold mt-1 d-inline-block">{{ e.numero_documento }}</span>
-                                    </td>
-                                    <td class="fw-semibold">{{ e.destinatario }}</td>
-                                    <td>
-                                        <div class="text-light small d-flex align-items-center gap-1" style="max-width: 200px; white-space: normal;">
-                                            <i class="fas fa-map-marker-alt text-danger flex-shrink-0"></i> 
-                                            <span>{{ e.direccion }}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2 py-1 fw-medium" style="white-space: nowrap;">
-                                            <i class="fas fa-motorcycle me-1"></i> {{ e.motorizado_nombre if e.motorizado_nombre else 'Sin asignar' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge text-uppercase {% if e.estado == 'entregado' %}bg-success text-dark{% else %}bg-warning text-dark{% endif %} fw-bold px-2 py-1" style="font-size: 0.65rem;">
-                                            {{ e.estado }}
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ url_for('eliminar_entrega', id=e.id) }}" class="btn-action-delete" title="Eliminar entrega" onclick="return confirm('¿Estás seguro de eliminar esta entrega?')">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                {% if entregas %}
+                                    {% for item in entregas %}
+                                    <tr>
+                                        <td>
+                                            <span class="d-block fw-bold text-info">{{ item.tipo_documento }}</span>
+                                            <small class="font-monospace text-muted">{{ item.numero_documento }}</small>
+                                        </td>
+                                        <td>{{ item.destinatario }}</td>
+                                        <td class="text-muted small">{{ item.direccion }}</td>
+                                        <td>
+                                            {% if item.motorizado %}
+                                                {{ item.motorizado.nombre }}
+                                            {% else %}
+                                                <span class="text-warning">Sin asignar</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% set estado_lower = (item.estado or '') | lower %}
+                                            {% if 'completad' in estado_lower or 'entregad' in estado_lower or 'directo' in estado_lower %}
+                                                <span class="badge-status badge-success">Completado</span>
+                                            {% else %}
+                                                <span class="badge-status badge-pending">Pendiente</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ url_for('motorizado_detalle', entrega_id=item.id) }}" class="btn btn-sm btn-outline-info" title="Ver Cédula de Auditoría">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 {% else %}
-                                <tr>
-                                    <td colspan="6" class="text-center py-5 text-muted">
-                                        <i class="fas fa-file-invoice fa-2x mb-2 opacity-25 d-block"></i>
-                                        No hay entregas creadas en este momento.
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">
+                                            <i class="fas fa-folder-open fa-2x mb-2 opacity-50"></i>
+                                            <p class="m-0">No hay entregas creadas en este momento.</p>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
