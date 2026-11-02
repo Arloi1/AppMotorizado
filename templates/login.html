@@ -9,14 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-emerald: #059669;
-            --emerald-dark: #022c22;
-            --emerald-glow: #10b981;
+            --primary-emerald: #1e88e5;
+            --emerald-dark: #0b192c;
+            --emerald-glow: #64b5f6;
             --gold-accent: #fbbf24;
+            --danger-urgent: #ef4444;
         }
 
         body {
-            background-color: #000205;
+            background-color: #0b192c;
             color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
@@ -38,11 +39,11 @@
             left: 0;
             z-index: 0;
             background: 
-                radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.38) 0%, transparent 45%),
-                radial-gradient(circle at 85% 80%, rgba(5, 150, 105, 0.32) 0%, transparent 50%),
-                radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 15% 85%, rgba(4, 120, 87, 0.4) 0%, transparent 55%),
-                linear-gradient(135deg, #011611 0%, #000205 55%, #010814 100%);
+                radial-gradient(circle at 15% 20%, rgba(30, 136, 229, 0.28) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(11, 25, 44, 0.32) 0%, transparent 50%),
+                radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 15% 85%, rgba(30, 136, 229, 0.3) 0%, transparent 55%),
+                linear-gradient(135deg, #0b192c 0%, #06101e 55%, #091424 100%);
         }
 
         .hud-grid-overlay {
@@ -52,14 +53,14 @@
             top: -50%;
             left: -50%;
             background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.18) 1.5px, transparent 1.5px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.18) 1.5px, transparent 1.5px);
+                linear-gradient(rgba(30, 136, 229, 0.12) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(30, 136, 229, 0.12) 1.5px, transparent 1.5px);
             background-size: 55px 55px;
             z-index: 1;
             transform: rotateX(60deg) translateZ(-100px);
             animation: gridMove 20s linear infinite;
             pointer-events: none;
-            box-shadow: inset 0 0 100px rgba(16, 185, 129, 0.3);
+            box-shadow: inset 0 0 100px rgba(30, 136, 229, 0.2);
         }
 
         @keyframes gridMove {
@@ -100,22 +101,22 @@
         .orbit-ring {
             position: absolute;
             inset: 0;
-            border: 3px dashed rgba(16, 185, 129, 0.5);
+            border: 3px dashed rgba(30, 136, 229, 0.4);
             border-radius: 50%;
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 25px rgba(30, 136, 229, 0.2);
             animation: spinOrbit 30s linear infinite;
         }
 
         .orbit-ring:nth-child(2) {
             inset: -90px;
-            border: 2px solid rgba(251, 191, 36, 0.4);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.25);
+            border: 2px solid rgba(251, 191, 36, 0.35);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.2);
             animation: spinOrbitReverse 45s linear infinite;
         }
 
         .orbit-ring:nth-child(3) {
             inset: -180px;
-            border: 2px dashed rgba(52, 211, 153, 0.35);
+            border: 2px dashed rgba(100, 181, 246, 0.25);
             animation: spinOrbit 60s linear infinite;
         }
 
@@ -153,14 +154,14 @@
             position: absolute;
             font-family: monospace;
             font-size: 0.8rem;
-            color: rgba(52, 211, 153, 0.85);
+            color: rgba(100, 181, 246, 0.85);
             letter-spacing: 2px;
             z-index: 5;
             pointer-events: none;
             display: flex;
             flex-direction: column;
             gap: 4px;
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+            text-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
         }
         .hud-tl { top: 30px; left: 35px; border-left: 3px solid var(--emerald-glow); padding-left: 12px; }
         .hud-tr { top: 30px; right: 35px; text-align: right; border-right: 3px solid var(--emerald-glow); padding-right: 12px; }
@@ -172,14 +173,14 @@
             z-index: 10;
             width: 100%;
             max-width: 580px;
-            background: rgba(6, 12, 22, 0.92);
+            background: rgba(14, 30, 54, 0.92);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
-            border: 2px solid rgba(16, 185, 129, 0.6);
+            border: 2px solid rgba(30, 136, 229, 0.5);
             border-radius: 42px;
             box-shadow: 0 60px 150px rgba(0, 0, 0, 0.98),
-                        0 0 100px rgba(16, 185, 129, 0.4),
-                        inset 0 1px 3px rgba(255, 255, 255, 0.6);
+                        0 0 100px rgba(30, 136, 229, 0.3),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.4);
             padding: 50px 48px;
             display: flex;
             flex-direction: column;
@@ -191,7 +192,7 @@
         .login-unique-container:hover {
             transform: translateZ(95px) rotateX(2deg) rotateY(-2deg);
             box-shadow: 0 70px 170px rgba(0, 0, 0, 0.99),
-                        0 0 140px rgba(16, 185, 129, 0.65);
+                        0 0 140px rgba(30, 136, 229, 0.5);
         }
 
         .login-unique-container::before,
@@ -231,7 +232,7 @@
             padding: 22px 42px;
             border-radius: 26px;
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6),
-                        0 0 70px rgba(16, 185, 129, 0.8);
+                        0 0 70px rgba(30, 136, 229, 0.6);
             border: 2px solid rgba(255, 255, 255, 0.9);
             margin-bottom: 20px;
             display: flex;
@@ -244,7 +245,7 @@
         .logo-display-box:hover {
             transform: translateZ(65px) scale(1.04);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7),
-                        0 0 90px rgba(16, 185, 129, 1);
+                        0 0 90px rgba(30, 136, 229, 0.8);
         }
 
         .logo-display-box img {
@@ -257,17 +258,17 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(16, 185, 129, 0.22);
-            border: 1px solid rgba(16, 185, 129, 0.6);
+            background: rgba(30, 136, 229, 0.22);
+            border: 1px solid rgba(30, 136, 229, 0.5);
             padding: 8px 18px;
             border-radius: 50rem;
             font-size: 0.78rem;
             font-weight: 700;
-            color: #34d399;
+            color: #90caf9;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 12px;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 15px rgba(30, 136, 229, 0.25);
         }
 
         .system-title-unique h1 {
@@ -276,7 +277,7 @@
             color: #ffffff;
             margin: 0 0 4px 0;
             letter-spacing: -0.5px;
-            text-shadow: 0 2px 30px rgba(16, 185, 129, 0.7);
+            text-shadow: 0 2px 30px rgba(30, 136, 229, 0.6);
         }
 
         .system-title-unique h2 {
@@ -292,7 +293,7 @@
         .divider-unique {
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.8), transparent);
+            background: linear-gradient(90deg, transparent, rgba(30, 136, 229, 0.7), transparent);
             box-shadow: 0 0 10px var(--emerald-glow);
             margin: 24px 0;
         }
@@ -329,8 +330,8 @@
 
         .form-control-glass {
             width: 100%;
-            background: rgba(2, 6, 23, 0.9);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(6, 16, 30, 0.9);
+            border: 1px solid rgba(30, 136, 229, 0.3);
             padding: 16px 20px 16px 56px;
             font-size: 1rem;
             color: #ffffff;
@@ -343,10 +344,10 @@
         }
 
         .form-control-glass:focus {
-            background: rgba(2, 6, 23, 0.98);
+            background: rgba(6, 16, 30, 0.98);
             border-color: var(--emerald-glow);
-            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35),
-                        0 0 35px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 0 0 6px rgba(30, 136, 229, 0.3),
+                        0 0 35px rgba(30, 136, 229, 0.5);
             outline: none;
         }
 
@@ -355,7 +356,7 @@
         }
 
         .btn-action-primary {
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
             border: none;
             color: #ffffff;
             font-weight: 700;
@@ -364,7 +365,7 @@
             width: 100%;
             font-size: 1.02rem;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 12px 35px rgba(5, 150, 105, 0.6);
+            box-shadow: 0 12px 35px rgba(30, 136, 229, 0.5);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -376,9 +377,9 @@
         }
 
         .btn-action-primary:hover {
-            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-            box-shadow: 0 18px 50px rgba(5, 150, 105, 0.8),
-                        0 0 50px rgba(52, 211, 153, 0.9);
+            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+            box-shadow: 0 18px 50px rgba(30, 136, 229, 0.7),
+                        0 0 50px rgba(100, 181, 246, 0.8);
             transform: translateY(-3px) translateZ(10px);
         }
 
@@ -411,7 +412,7 @@
         #welcome-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(1, 10, 18, 0.96);
+            background: rgba(11, 25, 44, 0.96);
             backdrop-filter: blur(25px);
             z-index: 9999;
             display: flex;
@@ -440,12 +441,12 @@
         .welcome-spinner {
             width: 90px;
             height: 90px;
-            border: 4px solid rgba(16, 185, 129, 0.2);
+            border: 4px solid rgba(30, 136, 229, 0.2);
             border-top: 4px solid var(--emerald-glow);
             border-radius: 50%;
             animation: spinWelcome 1s linear infinite;
             margin: 0 auto 25px auto;
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 30px rgba(30, 136, 229, 0.4);
         }
 
         @keyframes spinWelcome {
@@ -460,7 +461,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+            text-shadow: 0 0 20px rgba(30, 136, 229, 0.7);
         }
 
         .welcome-subtitle {
@@ -510,11 +511,11 @@
 
     <div class="corner-hud hud-tl">
         <span>[ SYSTEM: SECURE ]</span>
-        <span style="font-size: 0.68rem; color: #34d399;">GORE_CAJ // QUANTUM_CORE</span>
+        <span style="font-size: 0.68rem; color: #90caf9;">GORE_CAJ // QUANTUM_CORE</span>
     </div>
     <div class="corner-hud hud-tr">
         <span>SG-QUANTUM V2.0</span>
-        <span style="font-size: 0.68rem; color: #34d399;">NODE: 127.0.0.1</span>
+        <span style="font-size: 0.68rem; color: #90caf9;">NODE: 127.0.0.1</span>
     </div>
     <div class="corner-hud hud-bl">
         <span>ENCRYPTION: AES-256</span>
@@ -584,7 +585,7 @@
         </div>
 
         <div class="login-footer-info">
-            <i class="fas fa-fingerprint text-success"></i> Unidad Funcional de Trámite Documentario &bull; Versión 2.0
+            <span style="color: var(--danger-urgent);"><i class="fas fa-circle-exclamation"></i> Sistema de Mensajería y Notificaciones Prioritarias</span> &bull; Versión 2.0
         </div>
 
     </div>
