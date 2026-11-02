@@ -24,7 +24,7 @@ def calcular_siguiente_dia_habil(fecha_base):
         delta = 3
     elif dia_semana == 5:   
         delta = 2
-    else:                   
+    else:                 
         delta = 1
     return fecha_base + timedelta(days=delta)
 
@@ -135,7 +135,6 @@ def admin_dashboard():
     
     hoy = date.today().isoformat()
     
-    # 1. Pendientes: Documentos 'pendiente' O preavisos cuya fecha límite ya cumplió o venció (<= hoy)
     cursor.execute('''
         SELECT e.*, u.nombre_completo as motorizado_nombre 
         FROM entregas e 
@@ -144,7 +143,6 @@ def admin_dashboard():
     ''', (hoy,))
     pendientes = cursor.fetchall()
     
-    # 2. Preavisos Activos: Documentos en estado 'preaviso' cuya fecha límite hábil sigue VIGENTE (> hoy)
     cursor.execute('''
         SELECT e.*, u.nombre_completo as motorizado_nombre 
         FROM entregas e 
@@ -153,7 +151,6 @@ def admin_dashboard():
     ''', (hoy,))
     preavisos = cursor.fetchall()
 
-    # 3. Entregados: Únicamente entregas finales definitivas
     cursor.execute('''
         SELECT e.*, u.nombre_completo as motorizado_nombre 
         FROM entregas e 
@@ -245,19 +242,25 @@ def gestionar_entregas():
     cursor = conn.cursor()
     
     if request.method == 'POST':
-        tipo_doc = request.form['tipo_documento']
-        nro_doc = request.form['numero_documento']
-        destinatario = request.form['destinatario']
-        direccion = request.form['direccion']
-        motorizado_id = request.form['motorizado_id']
-        
-        cursor.execute('''
-            INSERT INTO entregas (tipo_documento, numero_documento, destinatario, direccion, motorizado_id)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (tipo_doc, nro_doc, destinatario, direccion, motorizado_id))
-        conn.commit()
-        conn.close()
-        flash('Entrega creada y asignada correctamente', 'success')
+        try:
+            tipo_doc = request.form.get('tipo_documento')
+            nro_doc = request.form.get('numero_documento')
+            destinatario = request.form.get('destinatario')
+            direccion = request.form.get('direccion')
+            motorizado_id = request.form.get('motorizado_id')
+            
+            cursor.execute('''
+                INSERT INTO entregas (tipo_documento, numero_documento, destinatario, direccion, motorizado_id, estado)
+                VALUES (?, ?, ?, ?, ?, 'pendiente')
+            ''', (tipo_doc, nro_doc, destinatario, direccion, motorizado_id))
+            conn.commit()
+            flash('Entrega creada y asignada correctamente', 'success')
+        except Exception as e:
+            conn.rollback()
+            flash(f'Error al registrar la entrega: {str(e)}', 'danger')
+        finally:
+            conn.close()
+            
         return redirect(url_for('gestionar_entregas'))
         
     cursor.execute("SELECT * FROM usuarios WHERE rol = 'motorizado'")
@@ -321,21 +324,18 @@ def motorizado_dashboard():
     
     hoy = date.today().isoformat()
     
-    # 1. Pendientes para el motorizado (incluye preavisos vencidos: <= hoy)
     cursor.execute('''
         SELECT * FROM entregas 
         WHERE motorizado_id = ? AND (estado = 'pendiente' OR (estado = 'preaviso' AND fecha_limite <= ?))
     ''', (session['user_id'], hoy))
     pendientes = cursor.fetchall()
 
-    # 2. Preavisos VIGENTES para el motorizado (> hoy) -> ¡Corregido!
     cursor.execute('''
         SELECT * FROM entregas 
         WHERE motorizado_id = ? AND (estado = 'preaviso' AND fecha_limite > ?)
     ''', (session['user_id'], hoy))
     preavisos = cursor.fetchall()
     
-    # 3. Entregados definitivos (Excluye tajantemente los preavisos)
     cursor.execute('''
         SELECT * FROM entregas 
         WHERE motorizado_id = ? AND estado = 'entregado'
@@ -396,7 +396,6 @@ def registrar_entrega(entrega_id):
         celular_receptor = request.form.get('celular_receptor')
         firma_base64 = request.form.get('firma_base64')
         
-        # Asignación estricta de estado
         if tipo_entrega == 'preaviso':
             proximo_dia_habil = calcular_siguiente_dia_habil(date.today())
             fecha_limite = proximo_dia_habil.isoformat()
