@@ -16,16 +16,16 @@
     <style>
         :root {
             --bg-deep: #0b192c;
-            --card-bg: #1e3e62;
-            --border-subtle: rgba(255, 255, 255, 0.12);
+            --card-bg: #142841;
+            --border-subtle: rgba(30, 136, 229, 0.25);
             --primary-accent: #1e88e5;
-            --primary-light: rgba(30, 136, 229, 0.15);
+            --primary-light: rgba(30, 136, 229, 0.18);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --warning-accent: #f59e0b;
             --danger-accent: #ef4444;
             --success-accent: #10b981;
-            --gold-accent: #d97706;
+            --gold-accent: #90caf9;
         }
 
         body {
@@ -62,6 +62,7 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
 
         .brand-container {
@@ -78,7 +79,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
         .brand-logo-box img {
@@ -107,7 +108,7 @@
         .btn-logout-quantum {
             background: rgba(239, 68, 68, 0.12);
             color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.35);
             padding: 8px 16px;
             border-radius: 8px;
             font-weight: 600;
@@ -120,8 +121,9 @@
         }
 
         .btn-logout-quantum:hover { 
-            background: #dc2626;
+            background: #ef4444;
             color: #ffffff;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
         }
 
         .container-dashboard {
@@ -136,7 +138,7 @@
             border-radius: 16px;
             padding: 28px 32px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -176,18 +178,19 @@
         }
 
         .stat-box {
-            background: #091424;
+            background: #06101e;
             border: 1px solid var(--border-subtle);
             padding: 12px 18px;
             border-radius: 12px;
             text-align: center;
             min-width: 95px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
         }
 
         .stat-box .number {
             font-size: 1.3rem;
             font-weight: 800;
-            color: #64b5f6;
+            color: #38bdf8;
             display: block;
             font-family: 'JetBrains Mono', monospace;
         }
@@ -217,6 +220,7 @@
             margin-bottom: 28px;
             gap: 6px;
             flex-wrap: wrap;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
         }
 
         .nav-pills-quantum .nav-link {
@@ -236,11 +240,12 @@
             background: var(--primary-accent);
             color: #ffffff;
             font-weight: 700;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4);
         }
 
         .nav-pills-quantum .nav-link:hover:not(.active) {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(30, 136, 229, 0.15);
         }
 
         .delivery-card {
@@ -252,11 +257,13 @@
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .delivery-card:hover {
-            border-color: rgba(30, 136, 229, 0.4);
+            border-color: rgba(30, 136, 229, 0.5);
             transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
         }
 
         .delivery-card.pending {
@@ -264,7 +271,7 @@
         }
 
         .delivery-card.preaviso {
-            border-left: 4px solid #0284c7;
+            border-left: 4px solid #38bdf8;
         }
 
         .delivery-card.completed {
@@ -281,7 +288,7 @@
         .doc-badge {
             background: rgba(245, 158, 11, 0.15);
             color: var(--warning-accent);
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            border: 1px solid rgba(245, 158, 11, 0.35);
             padding: 5px 12px;
             border-radius: 6px;
             font-size: 0.7rem;
@@ -294,15 +301,15 @@
         }
 
         .doc-badge.preaviso-badge {
-            background: rgba(2, 132, 199, 0.15);
+            background: rgba(56, 189, 248, 0.15);
             color: #38bdf8;
-            border-color: rgba(2, 132, 199, 0.3);
+            border-color: rgba(56, 189, 248, 0.35);
         }
 
         .doc-badge.success {
             background: rgba(16, 185, 129, 0.15);
             color: var(--success-accent);
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.35);
         }
 
         .doc-number {
@@ -334,7 +341,7 @@
         }
 
         .delivery-details p i {
-            color: #f87171;
+            color: #ef4444;
         }
 
         .card-actions {
@@ -360,15 +367,17 @@
             transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
         }
 
         .btn-quantum-action:hover {
-            background: #1565c0;
+            background: #1976d2;
             color: #ffffff;
+            box-shadow: 0 6px 20px rgba(30, 136, 229, 0.5);
         }
 
         .btn-quantum-secondary {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             color: #e2e8f0;
             border: 1px solid var(--border-subtle);
             padding: 9px 18px;
@@ -383,8 +392,9 @@
         }
 
         .btn-quantum-secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(30, 136, 229, 0.2);
             color: #ffffff;
+            border-color: rgba(30, 136, 229, 0.4);
         }
 
         .empty-state {
@@ -393,6 +403,7 @@
             background: #142841;
             border: 1px dashed var(--border-subtle);
             border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .empty-state i {
@@ -410,12 +421,13 @@
 
         .alert-glass {
             background: rgba(30, 136, 229, 0.15);
-            border: 1px solid rgba(30, 136, 229, 0.3);
-            color: #90caf9;
+            border: 1px solid rgba(30, 136, 229, 0.35);
+            color: #38bdf8;
             border-radius: 10px;
             padding: 14px 20px;
             margin-bottom: 25px;
             font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -457,7 +469,7 @@
     <div class="container-dashboard">
 
         <div id="install-container" class="mb-4" style="display: none;">
-            <button id="btn-install-app" class="btn w-100 py-3 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: rgba(30, 136, 229, 0.18); border: 1px solid rgba(30, 136, 229, 0.4); color: #90caf9; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">
+            <button id="btn-install-app" class="btn w-100 py-3 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: rgba(30, 136, 229, 0.18); border: 1px solid rgba(30, 136, 229, 0.4); color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; box-shadow: 0 4px 15px rgba(30, 136, 229, 0.2);">
                 <i class="fas fa-download fs-5"></i> Instalar Aplicación en el Celular (PWA)
             </button>
         </div>
