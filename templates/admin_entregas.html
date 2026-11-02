@@ -9,14 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #07090e;
-            --card-bg: #0f172a;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --primary-accent: #00ff66;
-            --primary-light: rgba(0, 255, 102, 0.1);
+            --bg-deep: #0b192c;
+            --card-bg: #142841;
+            --border-subtle: rgba(30, 136, 229, 0.25);
+            --primary-accent: #38bdf8;
+            --primary-light: rgba(56, 189, 248, 0.12);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --success-color: #00ff66;
+            --success-color: #10b981;
             --warning-color: #f59e0b;
         }
 
@@ -31,10 +31,11 @@
         }
 
         .navbar-quantum {
-            background: #090d16;
+            background: #06101e;
             border-bottom: 1px solid var(--border-subtle);
             padding: 12px 24px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
 
         .brand-container {
@@ -51,6 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
         .brand-logo-box img {
@@ -70,7 +72,7 @@
 
         .brand-text .subtitle {
             font-size: 0.6rem;
-            color: var(--primary-accent);
+            color: #90caf9;
             font-weight: 700;
             letter-spacing: 0.8px;
             text-transform: uppercase;
@@ -90,14 +92,15 @@
         }
 
         .nav-link-quantum:hover, .nav-link-quantum.active {
-            color: var(--primary-accent);
-            background: rgba(0, 255, 102, 0.1);
+            color: #ffffff;
+            background: rgba(30, 136, 229, 0.2);
+            border: 1px solid rgba(30, 136, 229, 0.4);
         }
 
         .btn-logout-quantum {
-            background: rgba(220, 38, 38, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(220, 38, 38, 0.3);
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.35);
             padding: 8px 16px;
             border-radius: 8px;
             font-weight: 600;
@@ -110,8 +113,9 @@
         }
 
         .btn-logout-quantum:hover {
-            background: #dc2626;
+            background: #ef4444;
             color: #ffffff;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
         }
 
         .container {
@@ -134,16 +138,16 @@
         }
 
         .btn-back:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(30, 136, 229, 0.15);
             color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(30, 136, 229, 0.4);
         }
 
         .pro-card {
             background: var(--card-bg);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             padding: 24px;
             height: 100%;
         }
@@ -166,6 +170,7 @@
             padding: 7px;
             border-radius: 8px;
             font-size: 0.85rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
         .form-label {
@@ -178,7 +183,7 @@
         }
 
         .form-control, .form-select {
-            background: rgba(2, 6, 23, 0.6);
+            background: rgba(6, 16, 30, 0.7);
             border: 1px solid var(--border-subtle);
             color: #ffffff;
             border-radius: 10px;
@@ -188,9 +193,9 @@
         }
 
         .form-control:focus, .form-select:focus {
-            background: rgba(2, 6, 23, 0.9);
+            background: rgba(6, 16, 30, 0.95);
             border-color: var(--primary-accent);
-            box-shadow: 0 0 0 3px rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
             color: #ffffff;
         }
 
@@ -199,14 +204,14 @@
         }
 
         .form-select option {
-            background-color: #0f172a;
+            background-color: #142841;
             color: #ffffff;
         }
 
         .btn-quantum {
-            background: var(--primary-accent);
+            background: #1e88e5;
             border: none;
-            color: #07090e;
+            color: #ffffff;
             font-weight: 700;
             padding: 11px 20px;
             border-radius: 10px;
@@ -215,12 +220,13 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
             font-size: 0.82rem;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
         }
 
         .btn-quantum:hover {
-            background: #00cc52;
+            background: #1976d2;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 255, 102, 0.3);
+            box-shadow: 0 6px 20px rgba(30, 136, 229, 0.5);
         }
 
         .table-responsive {
@@ -237,7 +243,7 @@
         }
 
         .table-pro th {
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(6, 16, 30, 0.85);
             color: var(--text-muted);
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -254,7 +260,7 @@
             font-size: 0.88rem;
             color: var(--text-main);
             border-bottom: 1px solid var(--border-subtle);
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(20, 40, 65, 0.4);
         }
 
         .table-pro tr:last-child td {
@@ -262,12 +268,12 @@
         }
 
         .table-pro tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(30, 136, 229, 0.06);
         }
 
         .mono-text {
             font-family: 'JetBrains Mono', monospace;
-            color: var(--primary-accent);
+            color: #90caf9;
         }
 
         .btn-action-delete {
@@ -279,15 +285,16 @@
             justify-content: center;
             background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.25);
             text-decoration: none;
             transition: all 0.2s ease;
         }
 
         .btn-action-delete:hover {
-            background: #dc2626;
+            background: #ef4444;
             color: #ffffff;
-            border-color: #dc2626;
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
     </style>
 </head>
@@ -332,7 +339,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show shadow-sm border-0 mb-4 rounded-3" role="alert" style="background: rgba(0, 255, 102, 0.1); color: #00ff66; border: 1px solid rgba(0, 255, 102, 0.2) !important;">
+                    <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show shadow-sm border-0 mb-4 rounded-3" role="alert" style="background: rgba(30, 136, 229, 0.15); color: #38bdf8; border: 1px solid rgba(30, 136, 229, 0.3) !important;">
                         <div class="d-flex align-items-center gap-2">
                             <i class="fas fa-info-circle"></i>
                             <div>{{ message }}</div>
@@ -401,10 +408,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for e in entregas %}
+                                {% for e in entregadas %}
                                 <tr>
                                     <td>
-                                        <span class="badge bg-secondary bg-opacity-2ft text-light border border-secondary border-opacity-25 fw-semibold" style="font-size: 0.72rem;">{{ e.tipo_documento }}</span><br>
+                                        <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 fw-semibold" style="font-size: 0.72rem;">{{ e.tipo_documento }}</span><br>
                                         <span class="mono-text fw-bold mt-1 d-inline-block">{{ e.numero_documento }}</span>
                                     </td>
                                     <td class="fw-semibold">{{ e.destinatario }}</td>
@@ -415,7 +422,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 fw-medium" style="white-space: nowrap;">
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2 py-1 fw-medium" style="white-space: nowrap;">
                                             <i class="fas fa-motorcycle me-1"></i> {{ e.motorizado_nombre if e.motorizado_nombre else 'Sin asignar' }}
                                         </span>
                                     </td>
