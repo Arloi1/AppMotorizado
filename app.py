@@ -261,6 +261,7 @@ def gestionar_entregas():
             flash('Entrega creada y asignada correctamente', 'success')
         except Exception as e:
             conn.rollback()
+            print(f"ERROR EN POST ENTREGAS: {e}")
             flash(f'Error al registrar la entrega: {str(e)}', 'danger')
         finally:
             conn.close()
@@ -278,9 +279,9 @@ def gestionar_entregas():
         ''')
         entregas = cursor.fetchall()
     except Exception as e:
-        print(f"Error en /admin/entregas: {e}")
-        motorizados = []
-        entregas = []
+        # AQUÍ ESTÁ EL SECRETO: Si ocurre un error SQL, lo imprimiremos en los logs de Render
+        print(f"ERROR CRÍTICO EN GET /admin/entregas: {e}")
+        raise e # Esto detiene la ejecución y muestra el error real si estás depurando
     finally:
         conn.close()
     
