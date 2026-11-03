@@ -32,6 +32,7 @@ def init_db():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     
+    # Crear tabla de usuarios
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +43,7 @@ def init_db():
         )
     ''')
      
+    # Crear tabla de entregas con todos los campos necesarios integrados
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS entregas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +52,7 @@ def init_db():
             destinatario TEXT NOT NULL,
             direccion TEXT NOT NULL,
             motorizado_id INTEGER,
-            estado TEXT DEFAULT 'pendiente', -- 'pendiente', 'preaviso', o 'entregado'
+            estado TEXT DEFAULT 'pendiente',
             tipo_entrega TEXT,
             parentesco TEXT,
             nombre_receptor TEXT,
@@ -65,6 +67,7 @@ def init_db():
         )
     ''')
     
+    # Asegurar compatibilidad de columnas si la base de datos ya existía
     columnas_nuevas = [
         ("tipo_entrega", "TEXT"),
         ("parentesco", "TEXT"),
@@ -82,8 +85,9 @@ def init_db():
         try:
             cursor.execute(f"ALTER TABLE entregas ADD COLUMN {col_nombre} {col_tipo}")
         except sqlite3.OperationalError:
-            pass 
+            pass  # Si la columna ya existe, continúa sin error
     
+    # Crear usuario administrador por defecto si no existe
     cursor.execute("SELECT * FROM usuarios WHERE username = 'admin'")
     if not cursor.fetchone():
         cursor.execute("INSERT INTO usuarios (nombre_completo, username, password, rol) VALUES (?, ?, ?, ?)",
@@ -263,16 +267,22 @@ def gestionar_entregas():
             
         return redirect(url_for('gestionar_entregas'))
         
-    cursor.execute("SELECT * FROM usuarios WHERE rol = 'motorizado'")
-    motorizados = cursor.fetchall()
-    
-    cursor.execute('''
-        SELECT e.*, u.nombre_completo as motorizado_nombre 
-        FROM entregas e 
-        LEFT JOIN usuarios u ON e.motorizado_id = u.id
-    ''')
-    entregas = cursor.fetchall()
-    conn.close()
+    try:
+        cursor.execute("SELECT * FROM usuarios WHERE rol = 'motorizado'")
+        motorizados = cursor.fetchall()
+        
+        cursor.execute('''
+            SELECT e.*, u.nombre_completo as motorizado_nombre 
+            FROM entregas e 
+            LEFT JOIN usuarios u ON e.motorizado_id = u.id
+        ''')
+        entregas = cursor.fetchall()
+    except Exception as e:
+        print(f"Error en /admin/entregas: {e}")
+        motorizados = []
+        entregas = []
+    finally:
+        conn.close()
     
     return render_template('admin_entregas.html', motorizados=motorizados, entregas=entregas)
 
