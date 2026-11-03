@@ -292,8 +292,9 @@
         </a>
         <div class="nav-links">
             <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('admin_motorizados') }}">Motorizados</a>
-            <a href="{{ url_for('admin_entregas') }}" class="active">Entregas</a>
+            <!-- ENLACE CORREGIDO PARA APUNTAR A LA RUTA REAL EN app.py -->
+            <a href="{{ url_for('gestionar_motorizados') }}">Motorizados</a>
+            <a href="{{ url_for('gestionar_entregas') }}" class="active">Entregas</a>
         </div>
         <a href="{{ url_for('logout') }}" class="btn-logout-quantum">
             <i class="fas fa-sign-out-alt"></i> Salir
